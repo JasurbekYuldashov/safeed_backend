@@ -10,8 +10,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model States {
-  id      Int    @id @default(autoincrement())
-  zipCode String
-  name    String
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   @unique
+  password  String
+  fullName  String?
+}
+
+model Satisfied {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  icon      String
+  commment  String
+  start     Float?   @default(5)
+  name      String
+}
+
+model Article {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  body      String
+  readTime  Int
+  image     String
 }
