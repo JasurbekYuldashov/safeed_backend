@@ -25,7 +25,7 @@ model Satisfied {
   updatedAt DateTime @updatedAt
   icon      String
   commment  String
-  start     Float?   @default(5)
+  star     Float?   @default(5)
   name      String
 }
 

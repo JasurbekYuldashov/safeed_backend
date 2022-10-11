@@ -7,8 +7,8 @@ import {
   Post,
   UseGuards,
   Request,
-  Req, Query
-} from "@nestjs/common";
+  Query,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 

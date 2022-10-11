@@ -1,7 +1,7 @@
-import { HttpModule } from "@nestjs/axios";
-import { Module } from "@nestjs/common";
-import { ZipcodeController } from "./zipcode.controller";
-import { ZipcodeService } from "./zipcode.service";
+import { HttpModule } from '@nestjs/axios';
+import { Module } from '@nestjs/common';
+import { ZipcodeController } from './zipcode.controller';
+import { ZipcodeService } from './zipcode.service';
 
 @Module({
   imports: [
@@ -10,7 +10,7 @@ import { ZipcodeService } from "./zipcode.service";
       maxRedirects: 5,
     }),
   ],
-  controllers:[ZipcodeController],
+  controllers: [ZipcodeController],
   providers: [ZipcodeService],
 })
 export class ZipcodeModule {}
