@@ -26,6 +26,26 @@ export class AuthService {
     };
   }
 
+  async forgetPassword(user: any, body: any) {
+    const user2 = await this.prisma.user.findFirst({
+      where: { email: user.email, password: user.password },
+    });
+    if (!user2) {
+      throw new Error('User not found');
+    }
+    const user1 = await this.prisma.user.update({
+      where: { email: user.email },
+      data: { password: body.password },
+    });
+    const token = await this.jwtService.signAsync(
+      { email: user.email, password: user1.password },
+      {
+        secret: jwtConstants.secret,
+      },
+    );
+    return { token };
+  }
+
   async createUser(user: any) {
     const createUser = await this.prisma.user
       .create({

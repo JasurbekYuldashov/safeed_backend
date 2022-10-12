@@ -47,6 +47,12 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Post('forget-password')
+  async forgetPassword(@Request() body) {
+    return this.authService.forgetPassword(body.user, body.body);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('get-one')
   async getOne(@Query() query) {
     return this.authService.getOne(query);
