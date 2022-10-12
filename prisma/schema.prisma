@@ -37,4 +37,5 @@ model Article {
   body      String
   readTime  Int
   image     String
+  name      String
 }
