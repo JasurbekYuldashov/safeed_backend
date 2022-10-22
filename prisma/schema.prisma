@@ -11,12 +11,13 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  password  String
-  fullName  String?
+  id             Int              @id @default(autoincrement())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  email          String           @unique
+  password       String
+  fullName       String?
+  ForgetPassword ForgetPassword[]
 }
 
 model Satisfied {
@@ -25,7 +26,7 @@ model Satisfied {
   updatedAt DateTime @updatedAt
   icon      String
   commment  String
-  star     Float?   @default(5)
+  star      Float?   @default(5)
   name      String
 }
 
@@ -38,4 +39,14 @@ model Article {
   readTime  Int
   image     String
   name      String
+}
+
+model ForgetPassword {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  expireIn  DateTime
+  user      User     @relation(fields: [userId], references: [id])
+  code      Int
+  userId    Int
+  isChecked Boolean  @default(false)
 }

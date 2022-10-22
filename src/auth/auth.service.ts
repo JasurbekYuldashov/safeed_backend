@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
+import transporter from '../shared/transporter';
 
 @Injectable()
 export class AuthService {
@@ -97,5 +98,49 @@ export class AuthService {
         HttpStatus.UNAUTHORIZED,
       );
     });
+  }
+
+  async sendCode(body: { email: string }) {
+    const user = await this.prisma.user.findFirst({
+      where: { email: body.email },
+    });
+    if (!user) {
+      throw new HttpException(
+        { statusCode: HttpStatus.UNAUTHORIZED, error: 'User not found' },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    const min = Math.ceil(1000);
+    const max = Math.floor(9999);
+    const numbers = Math.floor(Math.random() * (max - min + 1)) + min;
+    const mailOptions = {
+      from: 'safeed12341@gmail.com',
+      to: body.email,
+      subject: 'Forget password',
+      html: `<h2>${numbers}</h2>`,
+    };
+    const send = await transporter.sendMail(mailOptions);
+    console.log(send);
+    const date = Date.now() + 300000;
+    const code = await this.prisma.forgetPassword.create({
+      data: {
+        expireIn: new Date(date),
+        code: numbers,
+        userId: user.id,
+      },
+    });
+    return { statusCode: 200, message: 'Sent' };
+  }
+
+  async checkCode(body: { email: string; code: number }) {
+    // const code = await this.prisma.forgetPassword.findFirst({
+    //   where: {
+    //     email:body.email,
+    //     code:body.code,
+    //   },
+    //   include: { user: true },
+    // });
+    // console.log(code);
+    return null;
   }
 }

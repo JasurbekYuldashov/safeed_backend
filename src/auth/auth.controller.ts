@@ -8,6 +8,7 @@ import {
   UseGuards,
   Request,
   Query,
+  Put,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
@@ -47,15 +48,24 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('forget-password')
-  async forgetPassword(@Request() body) {
-    return this.authService.forgetPassword(body.user, body.body);
-  }
-
-  @UseGuards(JwtAuthGuard)
   @Get('get-one')
   async getOne(@Query() query) {
     return this.authService.getOne(query);
+  }
+
+  @Post('send-code')
+  async sendCode(@Body() body) {
+    return this.authService.sendCode(body);
+  }
+
+  @Post('check-code')
+  async checkCode(@Body() body) {
+    return this.authService.checkCode(body);
+  }
+
+  @Put('forget-password')
+  async forgetPassword(@Request() body) {
+    return this.authService.forgetPassword(body.user, body.body);
   }
 
   @Get(

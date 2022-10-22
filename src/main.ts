@@ -11,10 +11,11 @@ async function bootstrap() {
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       preflightContinue: false,
       optionsSuccessStatus: 204,
-      credentials: true
+      credentials: true,
     }),
   );
   app.enableCors();
+  app.setGlobalPrefix('api');
   await app.listen(3001);
 }
 bootstrap();
