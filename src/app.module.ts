@@ -13,7 +13,7 @@ import { SatisfiedModule } from './satisfied/satisfied.module';
   imports: [
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '../uploads'),
-      serveRoot: '/uploads',
+      serveRoot: '/api/uploads',
       serveStaticOptions: {
         index: false,
       },
