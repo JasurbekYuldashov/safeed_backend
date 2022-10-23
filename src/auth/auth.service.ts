@@ -28,23 +28,18 @@ export class AuthService {
   }
 
   async forgetPassword(user: any, body: any) {
-    const user2 = await this.prisma.user.findFirst({
-      where: { email: user.email, password: user.password },
-    });
-    if (!user2) {
-      throw new Error('User not found');
-    }
+    const code: any = this.jwtService.decode(body.uniqueId);
     const user1 = await this.prisma.user.update({
-      where: { email: user.email },
+      where: { id: code.user.id },
       data: { password: body.password },
     });
     const token = await this.jwtService.signAsync(
-      { email: user.email, password: user1.password },
+      { email: user1.email, password: user1.password },
       {
         secret: jwtConstants.secret,
       },
     );
-    return { token };
+    return { token, user: user1 };
   }
 
   async createUser(user: any) {
@@ -119,10 +114,9 @@ export class AuthService {
       subject: 'Forget password',
       html: `<h2>${numbers}</h2>`,
     };
-    const send = await transporter.sendMail(mailOptions);
-    console.log(send);
-    const date = Date.now() + 300000;
-    const code = await this.prisma.forgetPassword.create({
+    await transporter.sendMail(mailOptions);
+    const date = Date.now() + 60000;
+    await this.prisma.forgetPassword.create({
       data: {
         expireIn: new Date(date),
         code: numbers,
@@ -133,14 +127,27 @@ export class AuthService {
   }
 
   async checkCode(body: { email: string; code: number }) {
-    // const code = await this.prisma.forgetPassword.findFirst({
-    //   where: {
-    //     email:body.email,
-    //     code:body.code,
-    //   },
-    //   include: { user: true },
-    // });
-    // console.log(code);
-    return null;
+    const user = await this.prisma.user.findFirst({
+      where: { email: body.email },
+    });
+    const code = await this.prisma.forgetPassword.findFirst({
+      where: {
+        code: body.code,
+        userId: user.id,
+        isChecked: false,
+        expireIn: {
+          gte: new Date(Date.now() - 60000).toISOString(),
+        },
+      },
+      include: { user: true },
+    });
+    if (!code) {
+      throw new HttpException(
+        { statusCode: HttpStatus.UNAUTHORIZED, error: 'Code not found' },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    const token = this.jwtService.sign({ user, code });
+    return { statusCode: 200, uniqueId: token };
   }
 }
