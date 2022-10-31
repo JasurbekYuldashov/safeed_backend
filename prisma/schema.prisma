@@ -28,6 +28,7 @@ model Satisfied {
   commment  String
   star      Float?   @default(5)
   name      String
+    broker    String?
 }
 
 model Article {
@@ -39,7 +40,6 @@ model Article {
   readTime  Int
   image     String
   name      String
-  broker    String?
 }
 
 model ForgetPassword {

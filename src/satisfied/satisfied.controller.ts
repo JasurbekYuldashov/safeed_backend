@@ -34,6 +34,7 @@ export class SatisfiedController {
   @Post('/')
   async save(@Body() body) {
     const data = await this.articleService.save(body).catch((e) => {
+      console.log(e);
       throw new HttpException(
         {
           statusCode: HttpStatus.BAD_REQUEST,
