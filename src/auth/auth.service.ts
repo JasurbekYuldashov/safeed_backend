@@ -114,7 +114,12 @@ export class AuthService {
       subject: 'Forget password',
       html: `<h2>${numbers}</h2>`,
     };
-    await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions).catch((e) => {
+      throw new HttpException(
+        { statusCode: HttpStatus.UNAUTHORIZED, error: 'Email error' },
+        HttpStatus.NOT_FOUND,
+      );
+    });
     const date = Date.now() + 60000;
     await this.prisma.forgetPassword.create({
       data: {

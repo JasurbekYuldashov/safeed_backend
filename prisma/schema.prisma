@@ -39,6 +39,7 @@ model Article {
   readTime  Int
   image     String
   name      String
+  broker    String?
 }
 
 model ForgetPassword {
