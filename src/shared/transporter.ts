@@ -1,19 +1,32 @@
 import * as nodemailer from 'nodemailer';
+import { google } from 'googleapis';
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    type: 'OAuth2',
-    user: 'safeed12341@gmail.com',
-    clientId:
-      '1037149241439-761olb4c8bppja86cqbrcbifm5qtigja.apps.googleusercontent.com',
-    clientSecret: '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',
-    refreshToken:
-      '1//04QgS9y3AJSWsCgYIARAAGAQSNwF-L9IrbtZxOQaGppzYf2dysnXtLxfeQaRZdiui6OVfZeGQh3Q-uFkvByeWdnRf8gqvBPRLYiM',
-    accessToken:
-      'ya29.a0AeTM1ich4Iyctf4N65QjgFceABBanjTLhwtCplJzG6fA0zNvb-vxavnc_-2MshFXdlSd0-yxpbkeywzntD-cWq5P1sAK1e5Co_vO9TmzwC9Fsbg_V6UO4LATE4nyq7lrqAGNyL-OWWp6QRquNnYQeTlOpQhQaCgYKAQoSARASFQHWtWOmoaiddFgqs7zbGuRYwq8OhQ0163',
-    expires: 1484314697598,
-  },
+const myOAuth2Client = new google.auth.OAuth2(
+  '959357065242-up5obtkkdoj89bihkq92eq711htnh4l5.apps.googleusercontent.com',
+  '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',
+  'https://developers.google.com/oauthplayground',
+);
+myOAuth2Client.setCredentials({
+  refresh_token:
+    '1//04jbqsKPpFe9cCgYIARAAGAQSNwF-L9Ir90RS04dKU0rM0IXExycKNjdS2TSZBQjy8azuIZZndLGzJXoxyOPrWtbSocE9Bd8dL7Y',
 });
 
+const transporter = async (): Promise<any> => {
+  const myAccessToken = await myOAuth2Client.getAccessToken();
+
+  return nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      type: 'OAuth2',
+      user: 'contact@safeeds.us',
+      clientId:
+        '959357065242-up5obtkkdoj89bihkq92eq711htnh4l5.apps.googleusercontent.com',
+      clientSecret: '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',
+      refreshToken:
+        '1//04jbqsKPpFe9cCgYIARAAGAQSNwF-L9Ir90RS04dKU0rM0IXExycKNjdS2TSZBQjy8azuIZZndLGzJXoxyOPrWtbSocE9Bd8dL7Y',
+      accessToken: myAccessToken.res.data.accessToken,
+      expires: 1484314697598,
+    },
+  });
+};
 export default transporter;
