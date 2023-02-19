@@ -24,7 +24,7 @@ const transporter = async (): Promise<any> => {
       clientSecret: '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',
       refreshToken:
         '1//04jbqsKPpFe9cCgYIARAAGAQSNwF-L9Ir90RS04dKU0rM0IXExycKNjdS2TSZBQjy8azuIZZndLGzJXoxyOPrWtbSocE9Bd8dL7Y',
-      accessToken: myAccessToken.res.data.accessToken,
+      accessToken: myAccessToken?.res?.data?.accessToken,
       expires: 1484314697598,
     },
   });
