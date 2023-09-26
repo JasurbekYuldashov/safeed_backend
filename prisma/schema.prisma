@@ -32,16 +32,18 @@ model Satisfied {
 }
 
 model Article {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  body      String
-  readTime  Int
-  image     String
-  name      String
-  pageName  String?  @default("")
-      keywords  String?  @default("auto transport company, car shipping company, car shipping companies, companies that ship cars, auto transport companies, car transport companies, best car shipping company, best company to ship a car, car moving companies, car hauling companies, auto shipping companies, vehicle transport company, vehicle transportation company, safeeds, safeeds transport, safeeds transport inc, vehicle shipping, new york auto shipping")
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  title           String
+  body            String
+  readTime        Int
+  image           String
+  name            String
+  pageName        String?  @default("")
+  keywords        String?  @default("auto transport company, car shipping company, car shipping companies, companies that ship cars, auto transport companies, car transport companies, best car shipping company, best company to ship a car, car moving companies, car hauling companies, auto shipping companies, vehicle transport company, vehicle transportation company, safeeds, safeeds transport, safeeds transport inc, vehicle shipping, new york auto shipping")
+  metaTitle       String?  @default("")
+  metaDescription String?  @default("")
 }
 
 model ForgetPassword {
@@ -52,4 +54,39 @@ model ForgetPassword {
   code      Int
   userId    Int
   isChecked Boolean  @default(false)
+}
+
+model TeamUser {
+  id             Int              @id @default(autoincrement())
+  createdAt      DateTime         @default(now())
+  firstname      String
+  username       String           @unique
+  lastname       String
+  employeeSince  DateTime?
+  employeeInfo   String?
+  email          String
+  phone          String
+  hobbies        String
+  gender         Gender           @default(MALE)
+  TeamUserReview TeamUserReview[]
+}
+
+model TeamUserReview {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  startCount  Int      @default(4)
+  title       String
+  description String
+  teamUserId  Int
+  teamUser    TeamUser @relation(fields: [teamUserId], references: [id])
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum BlogContentType {
+  TEXT
+  IMAGE
 }

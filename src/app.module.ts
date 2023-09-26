@@ -12,6 +12,9 @@ import { HttpModule } from '@nestjs/axios';
 import { PostQuoteController } from './quote/quote.controller';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
+import { TeamUserReviewController } from './teamUserReview/teamUserReview.controller';
+import { TeamUserService } from './teamUser/teamUser.service';
+import { TeamUserReviewService } from "./teamUserReview/teamUserReview.service";
 
 @Module({
   imports: [
@@ -31,7 +34,13 @@ import configuration from './config/configuration';
     ArticleModule,
     SatisfiedModule,
   ],
-  controllers: [FileUploadController, EmailController,PostQuoteController],
-  providers: [PrismaService],
+  controllers: [
+    FileUploadController,
+    EmailController,
+    PostQuoteController,
+    EmailController,
+    TeamUserReviewController,
+  ],
+  providers: [PrismaService, TeamUserService, TeamUserReviewService],
 })
 export class AppModule {}
