@@ -6,11 +6,18 @@ export class SatisfiedService {
   constructor(private prisma: PrismaService) {}
 
   async getAll(query?: any): Promise<any> {
-    return this.prisma.satisfied.findMany({});
+    const take =
+      query.take && Number.isInteger(parseInt(query.take))
+        ? +query.take
+        : undefined;
+    return this.prisma.satisfied.findMany({
+      orderBy: { updatedAt: 'desc' },
+      take,
+    });
   }
 
   async save(data?: any): Promise<any> {
-    return this.prisma.satisfied.create({ data })
+    return this.prisma.satisfied.create({ data });
   }
 
   async update(id: number, data?: any): Promise<any> {
