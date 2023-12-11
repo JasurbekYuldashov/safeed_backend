@@ -14,7 +14,8 @@ import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { TeamUserReviewController } from './teamUserReview/teamUserReview.controller';
 import { TeamUserService } from './teamUser/teamUser.service';
-import { TeamUserReviewService } from "./teamUserReview/teamUserReview.service";
+import { TeamUserReviewService } from './teamUserReview/teamUserReview.service';
+import { TeamUserController } from './teamUser/teamUser.controller';
 
 @Module({
   imports: [
@@ -40,7 +41,13 @@ import { TeamUserReviewService } from "./teamUserReview/teamUserReview.service";
     PostQuoteController,
     EmailController,
     TeamUserReviewController,
+    TeamUserController,
   ],
-  providers: [PrismaService, TeamUserService, TeamUserReviewService],
+  providers: [
+    PrismaService,
+    TeamUserService,
+    TeamUserReviewService,
+    TeamUserService,
+  ],
 })
 export class AppModule {}
