@@ -12,11 +12,11 @@ export class TeamUserService {
   constructor(private prisma: PrismaService) {}
 
   async getAll() {
-    return this.prisma.teamUser.findMany({});
+    return this.prisma.teamUsers.findMany({});
   }
 
   async save(data: CreateTeamUserDto) {
-    const checkData = await this.prisma.teamUser.findUnique({
+    const checkData = await this.prisma.teamUsers.findUnique({
       where: { username: data.username },
     });
     if (checkData) {
@@ -27,11 +27,11 @@ export class TeamUserService {
       });
     }
 
-    return this.prisma.teamUser.create({ data });
+    return this.prisma.teamUsers.create({ data });
   }
 
   async update(id: number, data: UpdateTeamUserDto) {
-    let checkData = await this.prisma.teamUser.findUnique({
+    let checkData = await this.prisma.teamUsers.findUnique({
       where: { id },
     });
 
@@ -42,7 +42,7 @@ export class TeamUserService {
         statusCode: HttpStatus.NOT_FOUND,
       });
     }
-    checkData = await this.prisma.teamUser.findUnique({
+    checkData = await this.prisma.teamUsers.findUnique({
       where: { username: data.username },
     });
     if (checkData && checkData.id !== id) {
@@ -53,11 +53,11 @@ export class TeamUserService {
       });
     }
 
-    return this.prisma.teamUser.update({ data, where: { id } });
+    return this.prisma.teamUsers.update({ data, where: { id } });
   }
 
   async getOne(id: number) {
-    const data = await this.prisma.teamUser.findUnique({ where: { id } });
+    const data = await this.prisma.teamUsers.findUnique({ where: { id } });
     if (!data) {
       throw new NotFoundException({
         error: 'Not Found',
@@ -69,7 +69,7 @@ export class TeamUserService {
   }
 
   async deleteOne(id: number) {
-    const data = await this.prisma.teamUser.findUnique({
+    const data = await this.prisma.teamUsers.findUnique({
       where: { id },
     });
     if (!data) {
@@ -80,8 +80,8 @@ export class TeamUserService {
       });
     }
     return this.prisma.$transaction([
-      this.prisma.teamUserReview.deleteMany({ where: { teamUserId: id } }),
-      this.prisma.teamUser.delete({ where: { id } }),
+      this.prisma.teamUserReviews.deleteMany({ where: { teamUserId: id } }),
+      this.prisma.teamUsers.delete({ where: { id } }),
     ]);
   }
 }

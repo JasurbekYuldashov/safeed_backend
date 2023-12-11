@@ -57,7 +57,7 @@ model ForgetPassword {
   isChecked Boolean  @default(false)
 }
 
-model TeamUser {
+model TeamUsers {
   id             Int              @id @default(autoincrement())
   createdAt      DateTime         @default(now())
   firstname      String
@@ -69,17 +69,17 @@ model TeamUser {
   phone          String
   hobbies        String
   gender         Gender           @default(MALE)
-  TeamUserReview TeamUserReview[]
+  TeamUserReview TeamUserReviews[]
 }
 
-model TeamUserReview {
+model TeamUserReviews {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   startCount  Int      @default(4)
   title       String
   description String
   teamUserId  Int
-  teamUser    TeamUser @relation(fields: [teamUserId], references: [id])
+  teamUser    TeamUsers @relation(fields: [teamUserId], references: [id])
 }
 
 enum Gender {

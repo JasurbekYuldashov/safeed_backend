@@ -12,11 +12,11 @@ export class TeamUserReviewService {
   constructor(private prisma: PrismaService) {}
 
   async getAll() {
-    return this.prisma.teamUserReview.findMany({});
+    return this.prisma.teamUserReviews.findMany({});
   }
 
   async getByTeamUser(id: number) {
-    const checkData = await this.prisma.teamUser.findUnique({
+    const checkData = await this.prisma.teamUsers.findUnique({
       where: { id },
     });
     if (!checkData) {
@@ -26,13 +26,13 @@ export class TeamUserReviewService {
         statusCode: HttpStatus.NOT_FOUND,
       });
     }
-    return this.prisma.teamUserReview.findMany({
+    return this.prisma.teamUserReviews.findMany({
       where: { teamUserId: id },
     });
   }
 
   async save(data: CreateTeamReviewDto) {
-    const checkData = await this.prisma.teamUser.findUnique({
+    const checkData = await this.prisma.teamUsers.findUnique({
       where: { id: data.teamUserId },
     });
     if (!checkData) {
@@ -43,11 +43,11 @@ export class TeamUserReviewService {
       });
     }
 
-    return this.prisma.teamUserReview.create({ data });
+    return this.prisma.teamUserReviews.create({ data });
   }
 
   async update(id: number, data: UpdateTeamReviewDto) {
-    let checkData = await this.prisma.teamUserReview.findUnique({
+    let checkData = await this.prisma.teamUserReviews.findUnique({
       where: { id },
     });
 
@@ -59,11 +59,11 @@ export class TeamUserReviewService {
       });
     }
 
-    return this.prisma.teamUserReview.update({ data, where: { id } });
+    return this.prisma.teamUserReviews.update({ data, where: { id } });
   }
 
   async getOne(id: number) {
-    const data = await this.prisma.teamUserReview.findUnique({ where: { id } });
+    const data = await this.prisma.teamUserReviews.findUnique({ where: { id } });
     if (!data) {
       throw new NotFoundException({
         error: 'Not Found',
@@ -75,7 +75,7 @@ export class TeamUserReviewService {
   }
 
   async deleteOne(id: number) {
-    const data = await this.prisma.teamUserReview.findUnique({
+    const data = await this.prisma.teamUserReviews.findUnique({
       where: { id },
     });
     if (!data) {
@@ -85,6 +85,6 @@ export class TeamUserReviewService {
         statusCode: HttpStatus.NOT_FOUND,
       });
     }
-    return this.prisma.teamUserReview.delete({ where: { id } });
+    return this.prisma.teamUserReviews.delete({ where: { id } });
   }
 }
