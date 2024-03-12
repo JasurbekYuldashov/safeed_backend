@@ -16,6 +16,7 @@ import { TeamUserReviewController } from './teamUserReview/teamUserReview.contro
 import { TeamUserService } from './teamUser/teamUser.service';
 import { TeamUserReviewService } from './teamUserReview/teamUserReview.service';
 import { TeamUserController } from './teamUser/teamUser.controller';
+import { ChargeModule } from './charge/charge.module';
 
 @Module({
   imports: [
@@ -34,6 +35,8 @@ import { TeamUserController } from './teamUser/teamUser.controller';
     AuthModule,
     ArticleModule,
     SatisfiedModule,
+    ChargeModule,
+    ChargeModule
   ],
   controllers: [
     FileUploadController,
