@@ -11,8 +11,9 @@ import configuration from 'src/config/configuration';
       load: [configuration],
     }),
     HttpModule.register({
-      timeout: 50000,
+      timeout: 500000,
       maxRedirects: 5,
+      headers: { "Accept-Encoding": "gzip,deflate,compress" } 
     }),
   ],
   controllers: [ZipcodeController],

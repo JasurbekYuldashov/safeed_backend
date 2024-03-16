@@ -30,15 +30,17 @@ export class ZipcodeService {
   async getPrice(body?: any) {
     try {
       const api_key = this.configService.get<string>('token');
-      await this.httpService.axiosRef.post("https://sft.msgplane.com/api/rest/get/price", {
-        ...body,
-        api_key,
-      });
-      return {
-        message: 'Quote posted',
-        statusCode: HttpStatus.OK,
-        result: true,
-      };
+      const data = await this.httpService.axiosRef.post(
+        'https://sft.msgplane.com/api/rest/get/price',
+        {},
+        {
+          params: {
+            ...body,
+            api_key,
+          },
+        },
+      );
+      return data.data;
     } catch (err) {
       throw new HttpException(
         {
