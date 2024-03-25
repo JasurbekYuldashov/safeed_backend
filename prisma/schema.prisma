@@ -47,6 +47,26 @@ model Article {
   slug            String?  @default("")
 }
 
+model Company {
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  name            String
+  rate            Int      @default(4)
+  category        String
+  image           String?  @default("")
+  email           String?  @default("")
+  mc              String?  @default("")
+  us_dot          String?  @default("")
+  location        String?  @default("")
+  address         String?  @default("")
+  body            String
+  keywords        String?  @default("auto transport company, car shipping company, car shipping companies, companies that ship cars, auto transport companies, car transport companies, best car shipping company, best company to ship a car, car moving companies, car hauling companies, auto shipping companies, vehicle transport company, vehicle transportation company, safeeds, safeeds transport, safeeds transport inc, vehicle shipping, new york auto shipping")
+  metaTitle       String?  @default("")
+  metaDescription String?  @default("")
+  slug            String?  @default("")
+}
+
 model ForgetPassword {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
